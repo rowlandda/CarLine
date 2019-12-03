@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,8 +19,6 @@ import com.csce4623.carline.adapters.MyCarRecyclerViewAdapter;
 import com.csce4623.carline.model.LineStudent;
 import com.csce4623.carline.network.ApiRequests;
 import com.csce4623.carline.network.RetrofitClientInstance;
-import com.csce4623.carline.view.dummy.DummyContent;
-import com.csce4623.carline.view.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
@@ -55,21 +54,6 @@ public class CarFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ApiRequests requests = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
-        //  get list of all students in line
-        Call<List<LineStudent>> call2 = requests.getAllLineStudents();
-        call2.enqueue(new Callback<List<LineStudent>>() {
-            @Override
-            public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
-                students = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<List<LineStudent>> call, Throwable t) {
-                System.out.println("error");
-            }
-        });
-
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -79,17 +63,34 @@ public class CarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_car_list, container, false);
-
+        final FragmentActivity c = getActivity();
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyCarRecyclerViewAdapter(students, mListener));
+            ApiRequests requests = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
+            //  get list of all students in line
+            Call<List<LineStudent>> call2 = requests.getAllLineStudents();
+            RecyclerView finalRecyclerView = recyclerView;
+            call2.enqueue(new Callback<List<LineStudent>>() {
+                @Override
+                public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
+                    students = response.body();
+                    finalRecyclerView.setAdapter(new MyCarRecyclerViewAdapter(students, mListener));
+                }
+
+                @Override
+                public void onFailure(Call<List<LineStudent>> call, Throwable t) {
+                    System.out.println("error");
+                }
+            });
+
         }
         return view;
     }

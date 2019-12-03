@@ -21,21 +21,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CarLineActivity extends AppCompatActivity implements CarlineView  {
+public class CarLineActivity extends AppCompatActivity implements CarlineView, CarFragment.OnListFragmentInteractionListener {
 
     private List<Student> students;
     private List<LineStudent> lineStudents;
-    MyCarRecyclerViewAdapter adapter;
-    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carline);
-
-        // set up the RecyclerView
-        recyclerView = findViewById(R.id.list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         ApiRequests requests = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
         //  get list of all students
@@ -58,14 +52,6 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView  {
             @Override
             public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
                 lineStudents = response.body();
-                adapter = new MyCarRecyclerViewAdapter(lineStudents, new CarFragment.OnListFragmentInteractionListener() {
-                    @Override
-                    public void onListFragmentInteraction(LineStudent item) {
-                        ;
-                    }
-                });
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -93,6 +79,11 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView  {
 
     @Override
     public void changePosition(LineStudent student, int pos) {
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(LineStudent item) {
 
     }
 }
