@@ -1,11 +1,14 @@
 package com.csce4623.carline.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.csce4623.carline.R;
+import com.csce4623.carline.adapters.MyCarRecyclerViewAdapter;
 import com.csce4623.carline.model.LineStudent;
 import com.csce4623.carline.model.Student;
 import com.csce4623.carline.network.ApiRequests;
@@ -22,11 +25,17 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView  {
 
     private List<Student> students;
     private List<LineStudent> lineStudents;
+    MyCarRecyclerViewAdapter adapter;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carline);
+
+        // set up the RecyclerView
+        recyclerView = findViewById(R.id.list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         ApiRequests requests = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
         //  get list of all students
@@ -49,6 +58,14 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView  {
             @Override
             public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
                 lineStudents = response.body();
+                adapter = new MyCarRecyclerViewAdapter(lineStudents, new CarFragment.OnListFragmentInteractionListener() {
+                    @Override
+                    public void onListFragmentInteraction(LineStudent item) {
+                        ;
+                    }
+                });
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -56,6 +73,7 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView  {
                 Toast.makeText(CarLineActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override
