@@ -76,9 +76,9 @@ public class CarFragment extends Fragment {
             }
             ApiRequests requests = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
             //  get list of all students in line
-            Call<List<LineStudent>> call2 = requests.getAllLineStudents();
+            Call<List<LineStudent>> call = requests.getAllLineStudents();
             RecyclerView finalRecyclerView = recyclerView;
-            call2.enqueue(new Callback<List<LineStudent>>() {
+            call.enqueue(new Callback<List<LineStudent>>() {
                 @Override
                 public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
                     students = response.body();

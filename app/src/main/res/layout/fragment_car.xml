@@ -2,7 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/car_foreground" />
 
     <TextView
         android:id="@+id/student_id"
@@ -17,4 +23,31 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:src="@drawable/move_up_foreground" />-->
+        <Button
+            android:id="@+id/up_arrow"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/move_up_foreground" />
+
+        <Button
+            android:id="@+id/down_arrow"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/move_down_foreground" />
+
+<!--        <ImageView-->
+<!--            android:id="@+id/down_arrow"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:src="@drawable/move_down_foreground" />-->
+    </LinearLayout>
 </LinearLayout>

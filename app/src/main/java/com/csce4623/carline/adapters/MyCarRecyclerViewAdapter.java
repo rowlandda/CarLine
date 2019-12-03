@@ -32,9 +32,9 @@ public class MyCarRecyclerViewAdapter extends RecyclerView.Adapter<MyCarRecycler
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getName());
-        holder.mContentView.setText(mValues.get(position).getCars()[0]);
+        holder.mStudent = mValues.get(position);
+        holder.mIdView.setText(mValues.get(position).getId());
+        holder.mLicence.setText(mValues.get(position).getCars()[0]);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +42,7 @@ public class MyCarRecyclerViewAdapter extends RecyclerView.Adapter<MyCarRecycler
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onListFragmentInteraction(holder.mStudent);
                 }
             }
         });
@@ -56,19 +56,19 @@ public class MyCarRecyclerViewAdapter extends RecyclerView.Adapter<MyCarRecycler
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
-        public final TextView mContentView;
-        public LineStudent mItem;
+        public final TextView mLicence;
+        public LineStudent mStudent;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.student_id);
-            mContentView = (TextView) view.findViewById(R.id.plate_number);
+            mLicence = (TextView) view.findViewById(R.id.plate_number);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mLicence.getText() + "'";
         }
     }
 }
