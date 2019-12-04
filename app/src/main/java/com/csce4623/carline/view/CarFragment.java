@@ -145,7 +145,8 @@ public class CarFragment extends Fragment {
         call.enqueue(new Callback<List<LineStudent>>() {
             @Override
             public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
-                students = response.body();
+                students.clear();
+                students.addAll(response.body());
                 adapter.notifyDataSetChanged();
             }
 
