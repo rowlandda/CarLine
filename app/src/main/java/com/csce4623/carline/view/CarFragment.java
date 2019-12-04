@@ -21,6 +21,7 @@ import com.csce4623.carline.model.LineStudent;
 import com.csce4623.carline.network.ApiRequests;
 import com.csce4623.carline.network.RetrofitClientInstance;
 
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -85,6 +86,7 @@ public class CarFragment extends Fragment {
                 @Override
                 public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
                     students = response.body();
+                    Collections.sort(students);
                     //add border to items
                     finalRecyclerView.addItemDecoration(
                             new DividerItemDecoration(getActivity(), R.drawable.dividers));

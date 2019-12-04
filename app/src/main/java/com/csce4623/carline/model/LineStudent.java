@@ -2,7 +2,7 @@ package com.csce4623.carline.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LineStudent {
+public class LineStudent implements Comparable<LineStudent>{
     @SerializedName("_id")
     private String id;
     @SerializedName("name")
@@ -77,5 +77,11 @@ public class LineStudent {
     public LineStudent setPosition(int position) {
         this.position = position;
         return this;
+    }
+
+    //this lets you sort the list by position
+    @Override
+    public int compareTo(LineStudent o) {
+        return this.position - o.position;
     }
 }
