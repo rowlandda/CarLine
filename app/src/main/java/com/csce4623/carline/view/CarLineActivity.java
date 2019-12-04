@@ -102,4 +102,7 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView, C
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    public void addCarToLine(View view) {
+    }
 }

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.csce4623.carline.R;
+import com.csce4623.carline.adapters.DividerItemDecoration;
 import com.csce4623.carline.adapters.MyCarRecyclerViewAdapter;
 import com.csce4623.carline.model.LineStudent;
 import com.csce4623.carline.network.ApiRequests;
@@ -54,6 +55,8 @@ public class CarFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -82,6 +85,10 @@ public class CarFragment extends Fragment {
                 @Override
                 public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
                     students = response.body();
+                    //add border to items
+                    finalRecyclerView.addItemDecoration(
+                            new DividerItemDecoration(getActivity(), R.drawable.dividers));
+                    //add the students to the adapter
                     finalRecyclerView.setAdapter(new MyCarRecyclerViewAdapter(students, mListener));
                 }
 
