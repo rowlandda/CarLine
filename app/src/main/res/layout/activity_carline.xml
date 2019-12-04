@@ -9,6 +9,7 @@
     <fragment android:name="com.csce4623.carline.view.CarFragment"
         android:id="@+id/list"
         android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_height="500dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
