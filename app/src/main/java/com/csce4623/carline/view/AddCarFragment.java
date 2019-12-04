@@ -108,4 +108,7 @@ public class AddCarFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public void addCarToLine(View view) {
+    }
 }

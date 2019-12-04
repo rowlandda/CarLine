@@ -21,7 +21,6 @@ import com.csce4623.carline.model.LineStudent;
 import com.csce4623.carline.network.ApiRequests;
 import com.csce4623.carline.network.RetrofitClientInstance;
 
-import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,6 +33,8 @@ public class CarFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private List<LineStudent> students;
+    private RecyclerView recyclerView;
+    private MyCarRecyclerViewAdapter adapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -56,8 +57,6 @@ public class CarFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -68,7 +67,7 @@ public class CarFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_car_list, container, false);
         final FragmentActivity c = getActivity();
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
+        recyclerView = view.findViewById(R.id.list);
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -86,12 +85,12 @@ public class CarFragment extends Fragment {
                 @Override
                 public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
                     students = response.body();
-                    Collections.sort(students);
                     //add border to items
                     finalRecyclerView.addItemDecoration(
                             new DividerItemDecoration(getActivity(), R.drawable.dividers));
                     //add the students to the adapter
-                    finalRecyclerView.setAdapter(new MyCarRecyclerViewAdapter(students, mListener));
+                    adapter = new MyCarRecyclerViewAdapter(students, mListener);
+                    finalRecyclerView.setAdapter(adapter);
                 }
 
                 @Override
@@ -135,5 +134,28 @@ public class CarFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(LineStudent item);
+    }
+
+    //updates the recyclerview with new items
+    public void refreshList() {
+        ApiRequests requests = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
+        //  get list of all students in line
+        Call<List<LineStudent>> call = requests.getAllLineStudents();
+        RecyclerView finalRecyclerView = recyclerView;
+        call.enqueue(new Callback<List<LineStudent>>() {
+            @Override
+            public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
+                students = response.body();
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<LineStudent>> call, Throwable t) {
+                System.out.println("error");
+            }
+        });
+    }
+    public int getCount() {
+        return adapter.getItemCount();
     }
 }

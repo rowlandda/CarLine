@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <EditText
-        android:id="@+id/student_id"
+        android:id="@+id/student_id_enter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:inputType="number"
         android:importantForAccessibility="no"
-        android:text="Enter Car Number"
+        android:hint="Enter Car Number"
         android:importantForAutofill="no" />
     <Button
         android:layout_width="wrap_content"

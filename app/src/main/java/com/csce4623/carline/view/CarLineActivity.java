@@ -4,21 +4,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.csce4623.carline.R;
+import com.csce4623.carline.adapters.DividerItemDecoration;
 import com.csce4623.carline.adapters.MyCarRecyclerViewAdapter;
 import com.csce4623.carline.model.LineStudent;
 import com.csce4623.carline.model.Student;
 import com.csce4623.carline.network.ApiRequests;
 import com.csce4623.carline.network.RetrofitClientInstance;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,47 +36,23 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView, C
     private List<Student> students;
     private List<LineStudent> lineStudents;
     private Button gotoStudent;
+    private ApiRequests request;
+    private CarFragment carList;
+    private int lineSize = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carline);
+        carList = (CarFragment) getSupportFragmentManager().findFragmentById(R.id.list);
         gotoStudent = findViewById(R.id.switch_views);
-
-//        ApiRequests requests = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
-//        //  get list of all students
-//        Call<List<Student>> call = requests.getAllStudents();
-//        call.enqueue(new Callback<List<Student>>() {
-//            @Override
-//            public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
-//                students = response.body();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Student>> call, Throwable t) {
-//                Toast.makeText(CarLineActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        //  get list of all students in line
-//        Call<List<LineStudent>> call2 = requests.getAllLineStudents();
-//        call2.enqueue(new Callback<List<LineStudent>>() {
-//            @Override
-//            public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
-//                lineStudents = response.body();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<LineStudent>> call, Throwable t) {
-//                Toast.makeText(CarLineActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
+        request = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
+        request.addCarToLine(188, 6);
     }
 
     @Override
-    public void refresh() {
-
+    public void refreshList() {
+        carList.refreshList();
     }
 
     @Override
@@ -104,5 +86,21 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView, C
     }
 
     public void addCarToLine(View view) {
+        TextView editText = findViewById(R.id.student_id_enter);
+        int studentId = Integer.parseInt(editText.getText().toString());
+        int position = carList.getCount() + 1;
+        Call<LineStudent> call = request.addCarToLine(studentId, position);
+        call.enqueue(new Callback<LineStudent>() {
+            @Override
+            public void onResponse(Call<LineStudent> call, Response<LineStudent> response) {
+                LineStudent lineStudent= response.body();
+                refreshList();
+            }
+
+            @Override
+            public void onFailure(Call<LineStudent> call, Throwable t) {
+                System.out.println("error");
+            }
+        });
     }
 }
