@@ -5,22 +5,32 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.csce4623.carline.R;
 import com.csce4623.carline.model.LineStudent;
 import com.csce4623.carline.view.CarFragment.OnListFragmentInteractionListener;
 
+import java.io.IOException;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MyCarRecyclerViewAdapter extends RecyclerView.Adapter<MyCarRecyclerViewAdapter.ViewHolder> {
 
     private final List<LineStudent> mValues;
     private final OnListFragmentInteractionListener mListener;
+    public DetailsAdapterListener onClickListener;
 
-    public MyCarRecyclerViewAdapter(List<LineStudent> students, OnListFragmentInteractionListener listener) {
+
+    public MyCarRecyclerViewAdapter(List<LineStudent> students,
+                                    OnListFragmentInteractionListener listener,
+                                    DetailsAdapterListener detailsListener) {
         mValues = students;
         mListener = listener;
+        this.onClickListener = detailsListener;
     }
 
     @Override
@@ -58,12 +68,30 @@ public class MyCarRecyclerViewAdapter extends RecyclerView.Adapter<MyCarRecycler
         public final TextView mIdView;
         public final TextView mLicence;
         public LineStudent mStudent;
+        @BindView(R.id.up_arrow)
+        Button mvUpBtn;
+        @BindView(R.id.down_arrow)
+        Button mvDownBtn;
 
         public ViewHolder(View view) {
             super(view);
+            ButterKnife.bind(this, view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.student_id);
             mLicence = (TextView) view.findViewById(R.id.plate_number);
+
+            mvUpBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickListener.moveUpClick(v, getAdapterPosition());
+                }
+            });
+            mvDownBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickListener.moveDownClick(v, getAdapterPosition());
+                }
+            });
         }
 
         @Override
@@ -71,4 +99,12 @@ public class MyCarRecyclerViewAdapter extends RecyclerView.Adapter<MyCarRecycler
             return super.toString() + " '" + mLicence.getText() + "'";
         }
     }
+
+    public interface DetailsAdapterListener {
+
+        void moveUpClick(View v, int position);
+
+        void moveDownClick(View v, int position);
+    }
+
 }

@@ -38,7 +38,6 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView, C
     private Button gotoStudent;
     private ApiRequests request;
     private CarFragment carList;
-    private int lineSize = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,6 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView, C
         carList = (CarFragment) getSupportFragmentManager().findFragmentById(R.id.list);
         gotoStudent = findViewById(R.id.switch_views);
         request = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
-        request.addCarToLine(188, 6);
     }
 
     @Override

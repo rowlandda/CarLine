@@ -21,6 +21,7 @@ import com.csce4623.carline.model.LineStudent;
 import com.csce4623.carline.network.ApiRequests;
 import com.csce4623.carline.network.RetrofitClientInstance;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -82,15 +83,28 @@ public class CarFragment extends Fragment {
             //  get list of all students in line
             Call<List<LineStudent>> call = requests.getAllLineStudents();
             RecyclerView finalRecyclerView = recyclerView;
+            //asynchronous
             call.enqueue(new Callback<List<LineStudent>>() {
                 @Override
                 public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
                     students = response.body();
+                    Collections.sort(students);
                     //add border to items
                     finalRecyclerView.addItemDecoration(
                             new DividerItemDecoration(getActivity(), R.drawable.dividers));
                     //add the students to the adapter
-                    adapter = new MyCarRecyclerViewAdapter(students, mListener);
+                    adapter = new MyCarRecyclerViewAdapter(students, mListener,
+                        new MyCarRecyclerViewAdapter.DetailsAdapterListener() {
+                            @Override
+                            public void moveUpClick(View v, int position){
+                                moveUpOne(students, position);// do something or navigate to detailed classes
+                            }
+
+                            @Override
+                            public void moveDownClick(View v, int position) {
+                                moveDownOne(students, position);// do something or navigate to running days
+                            }
+                        });
                     finalRecyclerView.setAdapter(adapter);
                 }
 
@@ -104,6 +118,78 @@ public class CarFragment extends Fragment {
         return view;
     }
 
+    //move selected student up one in the line
+    private void moveUpOne(List<LineStudent> students, int position){
+        ApiRequests requests = RetrofitClientInstance
+                .getRetrofitInstance()
+                .create(ApiRequests.class);
+        int indexFront = position -1;
+        int indexSelected = position;
+        int positionFront = students.get(indexFront).getPosition();
+        int positionSelected = students.get(indexSelected).getPosition();
+        int studentIdFront = Integer.parseInt(students.get(indexFront).getId());
+        int studentIdSelected = Integer.parseInt(students.get(indexSelected).getId());
+        Call<LineStudent> call1 = requests.addCarToLine(studentIdSelected, positionFront);
+        Call<LineStudent> call2 = requests.addCarToLine(studentIdFront, positionSelected);
+        call1.enqueue(new Callback<LineStudent>() {
+            @Override
+            public void onResponse(Call<LineStudent> call, Response<LineStudent> response) {
+                refreshList();
+            }
+
+            @Override
+            public void onFailure(Call<LineStudent> call, Throwable t) {
+                System.out.println("error");
+            }
+        });
+        call2.enqueue(new Callback<LineStudent>() {
+            @Override
+            public void onResponse(Call<LineStudent> call, Response<LineStudent> response) {
+                refreshList();
+            }
+
+            @Override
+            public void onFailure(Call<LineStudent> call, Throwable t) {
+                System.out.println("error");
+            }
+        });
+    }
+
+    private void moveDownOne(List<LineStudent> students, int position) {
+        ApiRequests requests = RetrofitClientInstance
+                .getRetrofitInstance()
+                .create(ApiRequests.class);
+        int indexBack = position + 1;
+        int indexSelected = position;
+        int positionBack = students.get(indexBack).getPosition();
+        int positionSelected = students.get(indexSelected).getPosition();
+        int studentIdBack = Integer.parseInt(students.get(indexBack).getId());
+        int studentIdSelected = Integer.parseInt(students.get(indexSelected).getId());
+        Call<LineStudent> call1 = requests.addCarToLine(studentIdSelected, positionBack);
+        Call<LineStudent> call2 = requests.addCarToLine(studentIdBack, positionSelected);
+        call1.enqueue(new Callback<LineStudent>() {
+            @Override
+            public void onResponse(Call<LineStudent> call, Response<LineStudent> response) {
+                refreshList();
+            }
+
+            @Override
+            public void onFailure(Call<LineStudent> call, Throwable t) {
+                System.out.println("error");
+            }
+        });
+        call2.enqueue(new Callback<LineStudent>() {
+            @Override
+            public void onResponse(Call<LineStudent> call, Response<LineStudent> response) {
+                refreshList();
+            }
+
+            @Override
+            public void onFailure(Call<LineStudent> call, Throwable t) {
+                System.out.println("error");
+            }
+        });
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -163,6 +249,7 @@ public class CarFragment extends Fragment {
         return adapter.getItemCount();
     }
 
+    //get the position of the last person in line
     public int getHighestPosition() {
         return students.get(students.size()-1).getPosition();
     }
