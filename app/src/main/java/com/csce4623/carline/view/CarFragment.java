@@ -21,6 +21,7 @@ import com.csce4623.carline.model.LineStudent;
 import com.csce4623.carline.network.ApiRequests;
 import com.csce4623.carline.network.RetrofitClientInstance;
 
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -147,6 +148,7 @@ public class CarFragment extends Fragment {
             public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
                 students.clear();
                 students.addAll(response.body());
+                Collections.sort(students);
                 adapter.notifyDataSetChanged();
             }
 
@@ -156,7 +158,12 @@ public class CarFragment extends Fragment {
             }
         });
     }
+
     public int getCount() {
         return adapter.getItemCount();
+    }
+
+    public int getHighestPosition() {
+        return students.get(students.size()-1).getPosition();
     }
 }

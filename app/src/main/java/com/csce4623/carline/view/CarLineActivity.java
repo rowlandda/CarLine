@@ -88,7 +88,7 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView, C
     public void addCarToLine(View view) {
         TextView editText = findViewById(R.id.student_id_enter);
         int studentId = Integer.parseInt(editText.getText().toString());
-        int position = carList.getCount() + 1;
+        int position = carList.getHighestPosition()+1;
         Call<LineStudent> call = request.addCarToLine(studentId, position);
         call.enqueue(new Callback<LineStudent>() {
             @Override
