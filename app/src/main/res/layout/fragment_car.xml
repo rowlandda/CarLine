@@ -28,10 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-<!--        <ImageView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="45dp"-->
-<!--            android:src="@drawable/move_up_foreground" />-->
+
         <Button
             android:id="@+id/up_arrow"
             android:layout_width="45dp"
@@ -44,10 +41,5 @@
             android:layout_height="45dp"
             android:background="@drawable/move_down_foreground" />
 
-<!--        <ImageView-->
-<!--            android:id="@+id/down_arrow"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="45dp"-->
-<!--            android:src="@drawable/move_down_foreground" />-->
     </LinearLayout>
 </LinearLayout>

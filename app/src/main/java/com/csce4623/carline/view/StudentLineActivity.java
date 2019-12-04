@@ -38,8 +38,6 @@ public class StudentLineActivity extends AppCompatActivity implements StudentLin
         layoutManager = new LinearLayoutManager(this);
         studentRecycler.setLayoutManager(layoutManager);
 
-        srAdapter = new StudentLineAdapter(lineStudents);
-        studentRecycler.setAdapter(srAdapter);
 
 
         ApiRequests requests = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
@@ -63,6 +61,8 @@ public class StudentLineActivity extends AppCompatActivity implements StudentLin
             @Override
             public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
                 lineStudents = response.body();
+                srAdapter = new StudentLineAdapter(lineStudents);
+                studentRecycler.setAdapter(srAdapter);
             }
 
             @Override

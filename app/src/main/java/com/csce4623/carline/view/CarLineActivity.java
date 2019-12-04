@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.csce4623.carline.R;
@@ -25,11 +28,13 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView, C
 
     private List<Student> students;
     private List<LineStudent> lineStudents;
+    private Button gotoStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carline);
+        gotoStudent = findViewById(R.id.switch_views);
 
         ApiRequests requests = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
         //  get list of all students
@@ -85,5 +90,10 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView, C
     @Override
     public void onListFragmentInteraction(LineStudent item) {
 
+    }
+
+    public void goToStudent(View view) {
+        Intent intent = new Intent(this, StudentLineActivity.class);
+        startActivity(intent);
     }
 }
