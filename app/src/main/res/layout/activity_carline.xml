@@ -9,12 +9,23 @@
     <fragment android:name="com.csce4623.carline.view.CarFragment"
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="500dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
         tools:context=".view.CarFragment"
         tools:listitem="@layout/fragment_car" />
+
+    <fragment android:name="com.csce4623.carline.view.AddCarFragment"
+        android:id="@+id/add_car"
+        app:layout_constraintTop_toBottomOf="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".view.AddCarFragment"
+        />
 
     <Button
         android:id="@+id/switch_views"

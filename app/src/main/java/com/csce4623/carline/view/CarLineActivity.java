@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CarLineActivity extends AppCompatActivity implements CarlineView, CarFragment.OnListFragmentInteractionListener {
+public class CarLineActivity extends AppCompatActivity implements CarlineView, CarFragment.OnListFragmentInteractionListener, AddCarFragment.OnFragmentInteractionListener {
 
     private List<Student> students;
     private List<LineStudent> lineStudents;
@@ -36,34 +37,34 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView, C
         setContentView(R.layout.activity_carline);
         gotoStudent = findViewById(R.id.switch_views);
 
-        ApiRequests requests = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
-        //  get list of all students
-        Call<List<Student>> call = requests.getAllStudents();
-        call.enqueue(new Callback<List<Student>>() {
-            @Override
-            public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
-                students = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<List<Student>> call, Throwable t) {
-                Toast.makeText(CarLineActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //  get list of all students in line
-        Call<List<LineStudent>> call2 = requests.getAllLineStudents();
-        call2.enqueue(new Callback<List<LineStudent>>() {
-            @Override
-            public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
-                lineStudents = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<List<LineStudent>> call, Throwable t) {
-                Toast.makeText(CarLineActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        ApiRequests requests = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
+//        //  get list of all students
+//        Call<List<Student>> call = requests.getAllStudents();
+//        call.enqueue(new Callback<List<Student>>() {
+//            @Override
+//            public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
+//                students = response.body();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Student>> call, Throwable t) {
+//                Toast.makeText(CarLineActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        //  get list of all students in line
+//        Call<List<LineStudent>> call2 = requests.getAllLineStudents();
+//        call2.enqueue(new Callback<List<LineStudent>>() {
+//            @Override
+//            public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
+//                lineStudents = response.body();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<LineStudent>> call, Throwable t) {
+//                Toast.makeText(CarLineActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 
@@ -95,5 +96,10 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView, C
     public void goToStudent(View view) {
         Intent intent = new Intent(this, StudentLineActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
