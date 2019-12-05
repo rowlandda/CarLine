@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.csce4623.carline.R;
 import com.csce4623.carline.adapters.DividerItemDecoration;
@@ -23,7 +22,6 @@ import com.csce4623.carline.model.LineStudent;
 import com.csce4623.carline.network.ApiRequests;
 import com.csce4623.carline.network.RetrofitClientInstance;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,23 +37,12 @@ public class CarFragment extends Fragment {
     private List<LineStudent> students;
     private RecyclerView recyclerView;
     private MyCarRecyclerViewAdapter adapter;
-    private LineStudent mRecentlyDeletedItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public CarFragment() {
-    }
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static CarFragment newInstance(int columnCount) {
-        CarFragment fragment = new CarFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -100,12 +87,12 @@ public class CarFragment extends Fragment {
                         new MyCarRecyclerViewAdapter.DetailsAdapterListener() {
                             @Override
                             public void moveUpClick(View v, int position){
-                                moveUpOne(students, position);// do something or navigate to detailed classes
+                                moveUpOne(students, position);
                             }
 
                             @Override
                             public void moveDownClick(View v, int position) {
-                                moveDownOne(students, position);// do something or navigate to running days
+                                moveDownOne(students, position);
                             }
                         });
                     finalRecyclerView.setAdapter(adapter);

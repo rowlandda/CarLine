@@ -127,8 +127,6 @@ public class MyCarRecyclerViewAdapter extends RecyclerView.Adapter<MyCarRecycler
     public void deleteItem(int position) {
         mRecentlyDeletedItem = mValues.get(position);
         mRecentlyDeletedItemPosition = position;
-        mValues.remove(position);
-        notifyItemRemoved(position);
         ApiRequests request = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
         Call<LineStudent> call =
                 request.deleteCarFromLine(Integer.parseInt(mValues.get(position).getId()));
@@ -136,6 +134,8 @@ public class MyCarRecyclerViewAdapter extends RecyclerView.Adapter<MyCarRecycler
             @Override
             public void onResponse(Call<LineStudent> call, Response<LineStudent> response) {
                 LineStudent student = response.body();
+                mValues.remove(position);
+                notifyItemRemoved(position);
             }
             @Override
             public void onFailure(Call<LineStudent> call, Throwable t) {
