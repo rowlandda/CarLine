@@ -16,4 +16,14 @@
         app:layoutManager="LinearLayoutManager"
         tools:context=".view.StudentListFragment"
         tools:listitem="@layout/fragment_student" />
+
+    <Button
+        android:id="@+id/switch_to_car"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="goToCar"
+        android:text="@string/go_to_car"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

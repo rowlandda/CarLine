@@ -1,6 +1,9 @@
 package com.csce4623.carline.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -26,6 +29,7 @@ public class StudentLineActivity extends AppCompatActivity implements StudentLin
     private RecyclerView.LayoutManager layoutManager;
     private StudentListFragment studentList;
     private ApiRequests request;
+    public Button goToCar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +37,7 @@ public class StudentLineActivity extends AppCompatActivity implements StudentLin
         setContentView(R.layout.activity_studentline);
         studentList = (StudentListFragment) getSupportFragmentManager().findFragmentById(R.id.student_list);
         request = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
-
+        goToCar = findViewById(R.id.switch_to_car);
         layoutManager = new LinearLayoutManager(this);
 
     }
@@ -58,6 +62,11 @@ public class StudentLineActivity extends AppCompatActivity implements StudentLin
         super.onResume();
         refresh();
         //need to update list of students, call refresh
+    }
+
+    public void goToCar(View view) {
+        Intent intent = new Intent(this, CarLineActivity.class);
+        startActivity(intent);
     }
 
     @Override
