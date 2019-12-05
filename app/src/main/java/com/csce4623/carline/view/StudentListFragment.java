@@ -155,9 +155,4 @@ public class StudentListFragment extends Fragment {
     public int getCount() {
         return adapter.getItemCount();
     }
-
-    //get the position of the last person in line
-    public int getHighestPosition() {
-        return students.get(students.size()-1).getPosition();
-    }
 }

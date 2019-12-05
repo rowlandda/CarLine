@@ -245,6 +245,10 @@ public class CarFragment extends Fragment {
 
     //get the position of the last person in line
     public int getHighestPosition() {
-        return students.get(students.size()-1).getPosition();
+        if (students != null) {
+            return students.get(students.size()-1).getPosition();
+        }else {
+            return 0;
+        }
     }
 }
