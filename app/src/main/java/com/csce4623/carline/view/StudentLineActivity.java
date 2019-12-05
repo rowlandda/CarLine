@@ -21,55 +21,21 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class StudentLineActivity extends AppCompatActivity implements StudentLineView {
+public class StudentLineActivity extends AppCompatActivity implements StudentLineView, StudentListFragment.OnListFragmentInteractionListener {
 
-    private List<Student> students;
-    private List<LineStudent> lineStudents;
-    private RecyclerView studentRecycler;
-    private RecyclerView.Adapter srAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private StudentListFragment studentList;
+    private ApiRequests request;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_studentline);
-        studentRecycler = (RecyclerView) findViewById(R.id.StudentLineRecycler);
+        studentList = (StudentListFragment) getSupportFragmentManager().findFragmentById(R.id.student_list);
+        request = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
 
         layoutManager = new LinearLayoutManager(this);
-        studentRecycler.setLayoutManager(layoutManager);
 
-
-
-        ApiRequests requests = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
-        //  get list of all students
-        Call<List<Student>> call = requests.getAllStudents();
-        call.enqueue(new Callback<List<Student>>() {
-            @Override
-            public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
-                students = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<List<Student>> call, Throwable t) {
-                Toast.makeText(StudentLineActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //  get list of all students in line
-        Call<List<LineStudent>> call2 = requests.getAllLineStudents();
-        call2.enqueue(new Callback<List<LineStudent>>() {
-            @Override
-            public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
-                lineStudents = response.body();
-                srAdapter = new StudentLineAdapter(lineStudents);
-                studentRecycler.setAdapter(srAdapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<LineStudent>> call, Throwable t) {
-                Toast.makeText(StudentLineActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -111,6 +77,11 @@ public class StudentLineActivity extends AppCompatActivity implements StudentLin
 
     @Override
     public void changePosition(LineStudent student, int pos) {
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(LineStudent item) {
 
     }
 }

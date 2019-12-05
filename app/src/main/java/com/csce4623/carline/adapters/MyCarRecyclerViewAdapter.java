@@ -13,10 +13,7 @@ import com.csce4623.carline.model.LineStudent;
 import com.csce4623.carline.network.ApiRequests;
 import com.csce4623.carline.network.RetrofitClientInstance;
 import com.csce4623.carline.view.CarFragment.OnListFragmentInteractionListener;
-import com.google.android.material.snackbar.Snackbar;
 
-import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;

@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.CarLineActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/StudentLineRecycler"
+    <fragment android:name="com.csce4623.carline.view.StudentListFragment"
+        android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="500dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".view.StudentListFragment"
+        tools:listitem="@layout/fragment_student" />
+</androidx.constraintlayout.widget.ConstraintLayout>

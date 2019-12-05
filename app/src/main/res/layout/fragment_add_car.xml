@@ -7,21 +7,25 @@
 
     <EditText
         android:id="@+id/student_id_enter"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
+        android:layout_marginBottom="5dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/add_car_button"
         android:inputType="number"
         android:importantForAccessibility="no"
-        android:hint="Enter Car Number"
+        android:hint="@string/enter_car_number"
         android:importantForAutofill="no" />
     <Button
+        android:id="@+id/add_car_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Add"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/cardview_light_background"
+        android:text="@string/add"
         android:onClick="addCarToLine"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

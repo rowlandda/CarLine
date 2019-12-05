@@ -1,62 +1,114 @@
 package com.csce4623.carline.adapters;
 
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.widget.TextView;
+        import androidx.recyclerview.widget.RecyclerView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.TextView;
 
-import com.csce4623.carline.R;
-import com.csce4623.carline.model.LineStudent;
+        import com.csce4623.carline.R;
+        import com.csce4623.carline.model.LineStudent;
+        import com.csce4623.carline.network.ApiRequests;
+        import com.csce4623.carline.network.RetrofitClientInstance;
+        import com.csce4623.carline.view.StudentListFragment;
 
-import java.util.List;
+        import java.util.List;
 
-public class StudentLineAdapter extends RecyclerView.Adapter<StudentLineAdapter.MyViewHolder> {
-    private List<LineStudent> studentDataset;
+        import retrofit2.Call;
+        import retrofit2.Callback;
+        import retrofit2.Response;
 
-    @NonNull
-    @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        TextView v = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.studentline_fragment, parent, false);
-        MyViewHolder vh = new MyViewHolder(v);
-        return vh;
+public class StudentLineAdapter extends RecyclerView.Adapter<StudentLineAdapter.ViewHolder> {
+
+    private final List<LineStudent> mValues;
+    private final StudentListFragment.OnListFragmentInteractionListener mListener;
+    private LineStudent mRecentlyDeletedItem;
+    private int mRecentlyDeletedItemPosition;
+    protected RecyclerView mRecyclerView;
+
+
+    public StudentLineAdapter(List<LineStudent> students,
+                                    StudentListFragment.OnListFragmentInteractionListener listener)
+    {
+        mValues = students;
+        mListener = listener;
     }
 
-    public StudentLineAdapter(List<LineStudent> studentSet) {
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
 
-        studentDataset = studentSet;
+        mRecyclerView = recyclerView;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.sStudent = studentDataset.get(position);
-        holder.sNameView.setText(studentDataset.get(position).getName());
-        holder.sRoomView.setText(studentDataset.get(position).getRoom());
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.fragment_student, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        holder.mStudent = mValues.get(position);
+        holder.mNameView.setText(mValues.get(position).getName());
+        holder.mRoomView.setText(Integer.toString(mValues.get(position).getRoom()));
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onListFragmentInteraction(holder.mStudent);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return studentDataset.size();
+        return mValues.size();
     }
 
-    public  class MyViewHolder extends RecyclerView.ViewHolder {
-        public LineStudent sStudent;
-        public TextView textView;
-        public TextView sNameView;
-        public TextView sRoomView;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public final View mView;
+        public LineStudent mStudent;
+        public final TextView mNameView;
+        public final TextView mRoomView;
 
-        public MyViewHolder(TextView v) {
-            super(v);
-            textView = v;
-            sNameView = v.findViewById(R.id.Student_Name);
-            sRoomView = v.findViewById(R.id.Classroom_Number);
+        public ViewHolder(View view) {
+            super(view);
+            mView = view;
+            mNameView = (TextView) view.findViewById(R.id.Student_Name);
+            mRoomView = (TextView) view.findViewById(R.id.Classroom_Number);
         }
 
-        public TextView getTextView() {
-            return textView;
+        @Override
+        public String toString() {
+            return super.toString() + " '" + mStudent.getName() + "'";
         }
+    }
 
+    public void deleteItem(int position) {
+        mRecentlyDeletedItem = mValues.get(position);
+        mRecentlyDeletedItemPosition = position;
+        ApiRequests request = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
+        Call<LineStudent> call =
+                request.deleteCarFromLine(Integer.parseInt(mValues.get(position).getId()));
+        call.enqueue(new Callback<LineStudent>() {
+            @Override
+            public void onResponse(Call<LineStudent> call, Response<LineStudent> response) {
+                LineStudent student = response.body();
+                mValues.remove(position);
+                notifyItemRemoved(position);
+            }
+            @Override
+            public void onFailure(Call<LineStudent> call, Throwable t) {
+                System.out.println("error");
+            }
+        });
     }
 }
 
