@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.csce4623.carline.R;
 import com.csce4623.carline.adapters.DividerItemDecoration;
 import com.csce4623.carline.adapters.MyCarRecyclerViewAdapter;
+import com.csce4623.carline.adapters.SwipeToDeleteCallback;
 import com.csce4623.carline.model.LineStudent;
 import com.csce4623.carline.network.ApiRequests;
 import com.csce4623.carline.network.RetrofitClientInstance;
@@ -37,6 +39,7 @@ public class CarFragment extends Fragment {
     private List<LineStudent> students;
     private RecyclerView recyclerView;
     private MyCarRecyclerViewAdapter adapter;
+    private LineStudent mRecentlyDeletedItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -106,6 +109,9 @@ public class CarFragment extends Fragment {
                             }
                         });
                     finalRecyclerView.setAdapter(adapter);
+                    ItemTouchHelper itemTouchHelper = new
+                            ItemTouchHelper(new SwipeToDeleteCallback(adapter));
+                    itemTouchHelper.attachToRecyclerView(recyclerView);
                 }
 
                 @Override
@@ -228,7 +234,6 @@ public class CarFragment extends Fragment {
         ApiRequests requests = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
         //  get list of all students in line
         Call<List<LineStudent>> call = requests.getAllLineStudents();
-        RecyclerView finalRecyclerView = recyclerView;
         call.enqueue(new Callback<List<LineStudent>>() {
             @Override
             public void onResponse(Call<List<LineStudent>> call, Response<List<LineStudent>> response) {
@@ -244,6 +249,8 @@ public class CarFragment extends Fragment {
             }
         });
     }
+
+
 
     public int getCount() {
         return adapter.getItemCount();

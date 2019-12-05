@@ -10,19 +10,29 @@ import android.widget.TextView;
 
 import com.csce4623.carline.R;
 import com.csce4623.carline.model.LineStudent;
+import com.csce4623.carline.network.ApiRequests;
+import com.csce4623.carline.network.RetrofitClientInstance;
 import com.csce4623.carline.view.CarFragment.OnListFragmentInteractionListener;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyCarRecyclerViewAdapter extends RecyclerView.Adapter<MyCarRecyclerViewAdapter.ViewHolder> {
 
     private final List<LineStudent> mValues;
     private final OnListFragmentInteractionListener mListener;
     public DetailsAdapterListener onClickListener;
+    private LineStudent mRecentlyDeletedItem;
+    private int mRecentlyDeletedItemPosition;
+    protected RecyclerView mRecyclerView;
 
 
     public MyCarRecyclerViewAdapter(List<LineStudent> students,
@@ -31,6 +41,13 @@ public class MyCarRecyclerViewAdapter extends RecyclerView.Adapter<MyCarRecycler
         mValues = students;
         mListener = listener;
         this.onClickListener = detailsListener;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        mRecyclerView = recyclerView;
     }
 
     @Override
@@ -107,4 +124,23 @@ public class MyCarRecyclerViewAdapter extends RecyclerView.Adapter<MyCarRecycler
         void moveDownClick(View v, int position);
     }
 
+    public void deleteItem(int position) {
+        mRecentlyDeletedItem = mValues.get(position);
+        mRecentlyDeletedItemPosition = position;
+        mValues.remove(position);
+        notifyItemRemoved(position);
+        ApiRequests request = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
+        Call<LineStudent> call =
+                request.deleteCarFromLine(Integer.parseInt(mValues.get(position).getId()));
+        call.enqueue(new Callback<LineStudent>() {
+            @Override
+            public void onResponse(Call<LineStudent> call, Response<LineStudent> response) {
+                LineStudent student = response.body();
+            }
+            @Override
+            public void onFailure(Call<LineStudent> call, Throwable t) {
+                System.out.println("error");
+            }
+        });
+    }
 }
