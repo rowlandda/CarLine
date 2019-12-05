@@ -10,7 +10,7 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_height="500dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
@@ -19,7 +19,7 @@
 
     <fragment android:name="com.csce4623.carline.view.AddCarFragment"
         android:id="@+id/add_car"
-        app:layout_constraintTop_toBottomOf="@+id/list"
+        app:layout_constraintBottom_toTopOf="@+id/switch_views"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
