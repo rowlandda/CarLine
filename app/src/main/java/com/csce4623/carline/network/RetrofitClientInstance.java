@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClientInstance {
 
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http:/10.0.2.2:8080/";//this is the address of localhost when running the emulator
+    private static final String BASE_URL = "https://carline-api.herokuapp.com/";
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
