@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,17 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.csce4623.carline.R;
-import com.csce4623.carline.adapters.StudentLineAdapter;
 import com.csce4623.carline.model.LineStudent;
-import com.csce4623.carline.model.Student;
 import com.csce4623.carline.network.ApiRequests;
 import com.csce4623.carline.network.RetrofitClientInstance;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class StudentLineActivity extends AppCompatActivity implements StudentLineView, StudentListFragment.OnListFragmentInteractionListener {
 

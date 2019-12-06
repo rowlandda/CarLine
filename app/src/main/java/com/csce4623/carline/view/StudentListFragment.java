@@ -1,33 +1,33 @@
 package com.csce4623.carline.view;
 
 import android.content.Context;
-        import android.os.Bundle;
+import android.os.Bundle;
 
-        import androidx.fragment.app.Fragment;
-        import androidx.fragment.app.FragmentActivity;
-        import androidx.recyclerview.widget.GridLayoutManager;
-        import androidx.recyclerview.widget.ItemTouchHelper;
-        import androidx.recyclerview.widget.LinearLayoutManager;
-        import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-        import com.csce4623.carline.R;
-        import com.csce4623.carline.adapters.DividerItemDecoration;
-    import com.csce4623.carline.adapters.StudentLineAdapter;
-    import com.csce4623.carline.adapters.SwipeToDeleteCallback;
-        import com.csce4623.carline.model.LineStudent;
-        import com.csce4623.carline.network.ApiRequests;
-        import com.csce4623.carline.network.RetrofitClientInstance;
+import com.csce4623.carline.R;
+import com.csce4623.carline.adapters.DividerItemDecoration;
+import com.csce4623.carline.adapters.StudentLineAdapter;
+import com.csce4623.carline.adapters.SwipeToDeleteCallBackStudents;
+import com.csce4623.carline.model.LineStudent;
+import com.csce4623.carline.network.ApiRequests;
+import com.csce4623.carline.network.RetrofitClientInstance;
 
-        import java.util.Collections;
-        import java.util.List;
+import java.util.Collections;
+import java.util.List;
 
-        import retrofit2.Call;
-        import retrofit2.Callback;
-        import retrofit2.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class StudentListFragment extends Fragment {
 
@@ -85,6 +85,9 @@ public class StudentListFragment extends Fragment {
                     //add the students to the adapter
                     adapter = new StudentLineAdapter(students, mListener);
                     finalRecyclerView.setAdapter(adapter);
+                    ItemTouchHelper itemTouchHelper = new
+                            ItemTouchHelper(new SwipeToDeleteCallBackStudents(adapter));
+                    itemTouchHelper.attachToRecyclerView(recyclerView);
                 }
 
                 @Override
