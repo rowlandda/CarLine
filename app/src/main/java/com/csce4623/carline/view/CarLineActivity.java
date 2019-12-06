@@ -1,5 +1,6 @@
 package com.csce4623.carline.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +9,8 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,11 +24,18 @@ import com.csce4623.carline.model.LineStudent;
 import com.csce4623.carline.model.Student;
 import com.csce4623.carline.network.ApiRequests;
 import com.csce4623.carline.network.RetrofitClientInstance;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,7 +45,6 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView, C
 
     private List<Student> students;
     private List<LineStudent> lineStudents;
-    private Button gotoStudent;
     private ApiRequests request;
     private CarFragment carList;
 
@@ -44,8 +53,28 @@ public class CarLineActivity extends AppCompatActivity implements CarlineView, C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carline);
         carList = (CarFragment) getSupportFragmentManager().findFragmentById(R.id.list);
-        gotoStudent = findViewById(R.id.switch_views);
         request = RetrofitClientInstance.getRetrofitInstance().create(ApiRequests.class);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.nav_view);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem item = menu.getItem(0);
+        item.setChecked(true);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch(menuItem.getItemId()) {
+                    case R.id.cars_icon:
+
+                        break;
+                    case R.id.students_icon:
+                        Intent intent = new Intent(CarLineActivity.this, StudentLineActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     @Override

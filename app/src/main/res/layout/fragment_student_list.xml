@@ -10,4 +10,5 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".view.StudentListFragment"
-    tools:listitem="@layout/fragment_student" />
+    tools:listitem="@layout/fragment_student" >
+</androidx.recyclerview.widget.RecyclerView>
