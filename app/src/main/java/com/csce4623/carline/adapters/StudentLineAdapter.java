@@ -2,6 +2,7 @@ package com.csce4623.carline.adapters;
 
         import androidx.recyclerview.widget.RecyclerView;
 
+        import android.graphics.Color;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
@@ -51,6 +52,9 @@ public class StudentLineAdapter extends RecyclerView.Adapter<StudentLineAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        if (position % 2 == 0) {
+            holder.mView.setBackgroundColor(Color.LTGRAY);
+        }
         holder.mStudent = mValues.get(position);
         holder.mNameView.setText(mValues.get(position).getName());
         holder.mRoomView.setText(Integer.toString(mValues.get(position).getRoom()));

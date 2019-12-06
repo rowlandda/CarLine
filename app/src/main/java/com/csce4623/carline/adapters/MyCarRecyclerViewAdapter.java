@@ -2,6 +2,7 @@ package com.csce4623.carline.adapters;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,9 @@ public class MyCarRecyclerViewAdapter extends RecyclerView.Adapter<MyCarRecycler
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        if (position % 2 == 0) {
+            holder.mView.setBackgroundColor(Color.LTGRAY);
+        }
         holder.mStudent = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).getId());
         holder.mLicence.setText(mValues.get(position).getCars()[0]);
