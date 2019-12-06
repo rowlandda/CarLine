@@ -59,6 +59,8 @@ public class MyCarRecyclerViewAdapter extends RecyclerView.Adapter<MyCarRecycler
     public void onBindViewHolder(final ViewHolder holder, int position) {
         if (position % 2 == 0) {
             holder.mView.setBackgroundColor(Color.LTGRAY);
+        }else {
+            holder.mView.setBackgroundColor(Color.WHITE);
         }
         holder.mStudent = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).getId());
@@ -136,7 +138,7 @@ public class MyCarRecyclerViewAdapter extends RecyclerView.Adapter<MyCarRecycler
             public void onResponse(Call<LineStudent> call, Response<LineStudent> response) {
                 LineStudent student = response.body();
                 mValues.remove(position);
-                notifyItemRemoved(position);
+                notifyDataSetChanged();
             }
             @Override
             public void onFailure(Call<LineStudent> call, Throwable t) {

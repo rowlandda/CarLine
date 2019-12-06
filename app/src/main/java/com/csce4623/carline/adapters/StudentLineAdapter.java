@@ -54,6 +54,8 @@ public class StudentLineAdapter extends RecyclerView.Adapter<StudentLineAdapter.
     public void onBindViewHolder(final ViewHolder holder, int position) {
         if (position % 2 == 0) {
             holder.mView.setBackgroundColor(Color.LTGRAY);
+        }else {
+            holder.mView.setBackgroundColor(Color.WHITE);
         }
         holder.mStudent = mValues.get(position);
         holder.mNameView.setText(mValues.get(position).getName());
@@ -106,7 +108,7 @@ public class StudentLineAdapter extends RecyclerView.Adapter<StudentLineAdapter.
             public void onResponse(Call<LineStudent> call, Response<LineStudent> response) {
                 LineStudent student = response.body();
                 mValues.remove(position);
-                notifyItemRemoved(position);
+                notifyDataSetChanged();
             }
             @Override
             public void onFailure(Call<LineStudent> call, Throwable t) {
