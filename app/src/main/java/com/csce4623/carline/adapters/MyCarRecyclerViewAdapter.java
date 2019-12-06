@@ -58,7 +58,7 @@ public class MyCarRecyclerViewAdapter extends RecyclerView.Adapter<MyCarRecycler
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         if (position % 2 == 0) {
-            holder.mView.setBackgroundColor(Color.LTGRAY);
+            holder.mView.setBackgroundColor(Color.parseColor("#95D6CB"));
         }else {
             holder.mView.setBackgroundColor(Color.WHITE);
         }
