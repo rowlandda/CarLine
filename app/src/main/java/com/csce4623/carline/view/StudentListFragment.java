@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,8 @@ public class StudentListFragment extends Fragment {
     private List<LineStudent> students;
     private RecyclerView recyclerView;
     private StudentLineAdapter adapter;
+    private Handler handler;
+    private Runnable runnable;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -48,6 +51,22 @@ public class StudentListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //check for new data every 3 seconds
+        handler = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (students != null && students.size() > 0) {
+                    if (adapter != null && adapter.getItemCount() > 0) {
+                        refreshList();
+                    }
+                }
+                handler.postDelayed(this, 3000);
+            }
+        };
+
+        handler.post(runnable);
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
