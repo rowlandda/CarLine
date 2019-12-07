@@ -15,14 +15,20 @@ public class LineStudent implements Comparable<LineStudent>{
     private String[] cars;
     @SerializedName("position")
     private int position;
+    @SerializedName("teacher")
+    private String teacher;
+    @SerializedName("waiting")
+    private boolean waiting;
 
-    public LineStudent(String id, String name, int grade, int room, String[] cars, int position) {
+    public LineStudent(String id, String name, int grade, int room, String[] cars, int position, String teacher, boolean waiting) {
         this.id = id;
         this.name = name;
         this.grade = grade;
         this.room = room;
         this.cars = cars;
         this.position = position;
+        this.teacher = teacher;
+        this.waiting = waiting;
     }
 
     public String getId() {
@@ -79,6 +85,23 @@ public class LineStudent implements Comparable<LineStudent>{
         return this;
     }
 
+    public String getTeacher() {
+        return teacher;
+    }
+
+    public LineStudent setTeacher(String teacher) {
+        this.teacher = teacher;
+        return this;
+    }
+
+    public boolean getWaiting() {
+        return waiting;
+    }
+
+    public LineStudent setWaiting(boolean waiting) {
+        this.waiting = waiting;
+        return this;
+    }
     //this lets you sort the list by position
     @Override
     public int compareTo(LineStudent o) {

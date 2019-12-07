@@ -13,13 +13,16 @@ public class Student {
     private int room;
     @SerializedName("cars")// cars are just strings representing license plates for now
     private String[] cars;
+    @SerializedName("teacher")
+    private String teacher;
 
-    public Student(String id, String name, int grade, int room, String[] cars) {
+    public Student(String id, String name, int grade, int room, String[] cars, String teacher) {
         this.id = id;
         this.name = name;
         this.grade = grade;
         this.room = room;
         this.cars = cars;
+        this.teacher = teacher;
     }
 
     public String getId() {
@@ -64,6 +67,15 @@ public class Student {
 
     public Student setCars(String[] cars) {
         this.cars = cars;
+        return this;
+    }
+
+    public String getTeacher() {
+        return teacher;
+    }
+
+    public Student setTeacher(String teacher) {
+        this.teacher = teacher;
         return this;
     }
 }

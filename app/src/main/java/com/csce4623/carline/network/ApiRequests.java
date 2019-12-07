@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiRequests {
@@ -25,6 +26,9 @@ public interface ApiRequests {
     @POST("line/{studentId}/{position}")
     Call<LineStudent> addCarToLine(@Path("studentId") int studentId,
                                    @Path("position") int position);
+
+    @PUT("line/{studentId}/changewaiting")
+    Call<LineStudent> changeWaitingStatus(@Path("studentId") int studentId);
 
     //remove a student from the line
     @DELETE("line/{studentId}")
