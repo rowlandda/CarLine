@@ -6,38 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".view.CarLineActivity">
 
-    <TextView
-        android:id="@+id/Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/textName"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textStyle="bold"
-        android:typeface="normal"
-        android:layout_marginLeft="128dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/list"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-
-        />
-
-    <TextView
-        android:id="@+id/Classroom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/textClassroom"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textStyle="bold"
-        android:typeface="normal"
-        app:layout_constraintBottom_toTopOf="@+id/list"
-        app:layout_constraintLeft_toRightOf="@id/Name"
-        app:layout_constraintRight_toRightOf="parent" />
 
     <fragment android:name="com.csce4623.carline.view.StudentListFragment"
         android:id="@+id/list"
         android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/Name"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
